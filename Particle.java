@@ -1,3 +1,3 @@
-public interface Particle {
-    public Point centroid();
+public abstract class Particle {
+    public abstract Point centroid();
 }

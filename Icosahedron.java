@@ -1,4 +1,4 @@
-public class Icosahedron implements MassiveParticle{
+public class Icosahedron extends MassiveParticle {
     static double PHI = (1.0 + Math.sqrt(5.0))/2.0;
     Triangle[] triangles;
 
@@ -18,4 +18,21 @@ public class Icosahedron implements MassiveParticle{
         points[11] = new Point(0,-PHI,-1);
         points[12] = new Point(0,-PHI,1);
     }
+
+    public Point centroid(){
+        return new Point(0,0,0);
+    }
+
+    public double getMass(){
+        double mass = 0;
+        for (Triangle i : triangles){
+            mass += i.getMass();
+        }
+        return mass;
+    }
+
+    public Triangle[] section(){
+        return triangles;
+    }
+
 }

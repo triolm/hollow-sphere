@@ -33,4 +33,8 @@ public class Vector3D {
         return (this.x * other.x) + (this.y * other.y) + (this.z * other.z);
     }
 
+    public double norm(){
+        return Math.sqrt(this.dot(this));
+    }
+
 }
