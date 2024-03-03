@@ -29,11 +29,6 @@ class Cube extends MassiveParticle {
       new Triangle(vertices[1], vertices[3], vertices[5], tMass),
       new Triangle(vertices[3], vertices[5], vertices[7], tMass),
 
-      new Triangle(vertices[0], vertices[1], vertices[3], tMass),
-      new Triangle(vertices[1], vertices[3], vertices[2], tMass),
-
-      new Triangle(vertices[4], vertices[5], vertices[7], tMass),
-      new Triangle(vertices[4], vertices[7], vertices[6], tMass)
     };
   }
 
@@ -55,14 +50,16 @@ class Cube extends MassiveParticle {
 
   public void setCentroid(Point p) {
   }
-  
-  public void draw(){
+
+  public void draw() {
     rectMode(CENTER);
-    fill(0,0,0,0);
-    stroke(255,255,255);
+    fill(0, 0, 0, 0);
+    stroke(255, 255, 255);
     //square((float)(centroid().getX()/ SCALE), (float)(centroid().getY() / SCALE), (float)(r / SCALE));
-    for(Triangle i : triangles){
+    for (Triangle i : triangles) {
       i.draw();
     }
+    //rotateY(0.5);
+    //box((float)(r/SCALE));
   }
 }

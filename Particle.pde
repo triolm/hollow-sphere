@@ -18,6 +18,10 @@ abstract class Particle {
   public abstract void setCentroid(Point p);
 
   public void draw() {
+    strokeWeight(10);
+    beginShape(POINTS);
+    stroke(0, 255, 0);
     centroid().draw();
+    endShape();
   }
 }

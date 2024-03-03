@@ -23,20 +23,62 @@ class Triangle extends MassiveParticle {
   }
 
   public Triangle[] section() {
-    Triangle[] t = {this};
+    Point ab = vertices[0].midpoint(vertices[1]);
+    Point bc = vertices[1].midpoint(vertices[2]);
+    Point ca = vertices[2].midpoint(vertices[0]);
+
+    Triangle[] t = {
+      new Triangle(vertices[0], ab, ca, mass/4),
+      new Triangle(vertices[1], ab, bc, mass/4),
+      new Triangle(vertices[2], bc, ca, mass/4),
+      new Triangle(ab, bc, ca, mass/4)
+    };
     return t;
   }
 
   public void setCentroid(Point p) {
   }
 
+
+
   void draw() {
-    fill(0,0,0,0);
-    stroke(255,255,255);
+    noFill();
+    stroke(255, 255, 255, 150);
+    //fill(0,0,0);
+    strokeWeight(2);
+    beginShape(TRIANGLES);
     vertices[0].draw();
     vertices[1].draw();
     vertices[2].draw();
-    stroke(255,0,0);
-    centroid().draw();
+    endShape();
+  }
+}
+
+class SphereTriangle extends Triangle {
+  Point origin;
+  public SphereTriangle(Point a, Point b, Point c, double mass, Point origin) {
+    super(a, b, c, mass);
+    this.origin = origin;
+  }
+
+  public Triangle[] section() {
+    double originDist = vertices[0].dist(origin);
+    //println(originDist);
+
+    Point ab = vertices[0].midpoint(vertices[1]);
+    Point bc = vertices[1].midpoint(vertices[2]);
+    Point ca = vertices[2].midpoint(vertices[0]);
+
+    ab = origin.add(ab.subtract(origin).normalize().scale(originDist));
+    bc = origin.add(bc.subtract(origin).normalize().scale(originDist));
+    ca = origin.add(ca.subtract(origin).normalize().scale(originDist));
+
+    SphereTriangle[] t = {
+      new SphereTriangle(vertices[0], ab, ca, mass/4, origin),
+      new SphereTriangle(vertices[1], ab, bc, mass/4, origin),
+      new SphereTriangle(vertices[2], bc, ca, mass/4, origin),
+      new SphereTriangle(ab, bc, ca, mass/4, origin)
+    };
+    return t;
   }
 }

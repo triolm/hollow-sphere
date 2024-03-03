@@ -26,4 +26,14 @@ abstract class MassiveParticle extends Particle {
     }
     return v;
   }
+
+  void drawRecur(int depth) {
+    if (depth <= 0) {
+      this.draw();
+      return;
+    };
+    for (MassiveParticle i : this.section()) {
+      i.drawRecur(depth-1);
+    }
+  }
 }

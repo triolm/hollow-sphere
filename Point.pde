@@ -29,6 +29,10 @@ class Point {
       );
   }
 
+  public Point midpoint(Point other) {
+    return other.add(this.subtract(other).scale(.5));
+  }
+
   public Vector3D subtract(Point other) {
     return new Vector3D(this.x - other.x, this.y - other.y, this.z - other.z);
   }
@@ -36,9 +40,8 @@ class Point {
   public String toString() {
     return this.getX() + ", " + this.getY() + "," + this.getZ();
   }
-  
+
   public void draw() {
-   
-    circle((float)(getX() / SCALE), (float)(getY() / SCALE), 4);
+    vertex((float)(getX()/SCALE), (float)(getY()/SCALE), (float)(getZ()/SCALE));
   }
 }

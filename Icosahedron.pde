@@ -1,43 +1,88 @@
-//class Icosahedron extends MassiveParticle {
-//    double PHI = (1.0 + Math.sqrt(5.0))/2.0;
-//    Triangle[] triangles;
+class Icosahedron extends MassiveParticle {
+  Triangle[] triangles;
+  double r;
+  public Icosahedron(Point p, double r, double mass) {
+    super(p, mass);
+    this.r = r;
+    // Define 12 vertices of the icosahedron
+    double PHI = (1.0 + Math.sqrt(5.0))/2.0 * r;
+    Point[] vertices = {
+      new Point(PHI, r, 0),
+      new Point(PHI, -r, 0),
+      new Point(-PHI, -r, 0),
+      new Point(-PHI, r, 0),
+      new Point(r, 0, PHI),
+      new Point(-r, 0, PHI),
+      new Point(-r, 0, -PHI),
+      new Point(r, 0, -PHI),
+      new Point(0, PHI, r),
+      new Point(0, PHI, -r),
+      new Point(0, -PHI, -r),
+      new Point(0, -PHI, r)
+    };
 
-//    public Icosahedron(double r){
+    triangles = new SphereTriangle[]{
+      //top
+      new SphereTriangle(vertices[11], vertices[2], vertices[10], mass/20, this.centroid()),
+      new SphereTriangle(vertices[11], vertices[1], vertices[10], mass/20, this.centroid()),
+      new SphereTriangle(vertices[11], vertices[1], vertices[4], mass/20, this.centroid()),
+      new SphereTriangle(vertices[11], vertices[5], vertices[4], mass/20, this.centroid()),
+      new SphereTriangle(vertices[11], vertices[5], vertices[2], mass/20, this.centroid()),
 
-//        Point[] points = new Point[20];
 
-//        points[1] = new Point(PHI,1,0);
-//        points[2] = new Point(PHI,-1,0);
-//        points[3] = new Point(-PHI,-1,0);
-//        points[4] = new Point(-PHI,1,0);
-//        points[5] = new Point(1,0,PHI);
-//        points[6] = new Point(-1,0,PHI);
-//        points[7] = new Point(-1,0,-PHI);
-//        points[8] = new Point(1,0,-PHI);
-//        points[9] = new Point(0,PHI,1);
-//        points[10] = new Point(0,PHI,-1);
-//        points[11] = new Point(0,-PHI,-1);
-//        points[12] = new Point(0,-PHI,1);
-//    }
+      new SphereTriangle(vertices[9], vertices[6], vertices[7], mass/20, this.centroid()),
+      new SphereTriangle(vertices[9], vertices[6], vertices[3], mass/20, this.centroid()),
+      new SphereTriangle(vertices[9], vertices[8], vertices[3], mass/20, this.centroid()),
+      new SphereTriangle(vertices[9], vertices[8], vertices[0], mass/20, this.centroid()),
+      new SphereTriangle(vertices[9], vertices[0], vertices[7], mass/20, this.centroid()),
 
-//    public Point centroid(){
-//        return new Point(0,0,0);
-//    }
 
-//    public double getMass(){
-//        double mass = 0;
-//        for (Triangle i : triangles){
-//            mass += i.getMass();
-//        }
-//        return mass;
-//    }
+      new SphereTriangle(vertices[5], vertices[4], vertices[8], mass/20, this.centroid()),
+      new SphereTriangle(vertices[0], vertices[4], vertices[8], mass/20, this.centroid()),
+      new SphereTriangle(vertices[0], vertices[4], vertices[1], mass/20, this.centroid()),
+      new SphereTriangle(vertices[0], vertices[7], vertices[1], mass/20, this.centroid()),
+      new SphereTriangle(vertices[10], vertices[7], vertices[1], mass/20, this.centroid()),
 
-//    public Triangle[] section(){
-//        return triangles;
-//    }
+      new SphereTriangle(vertices[10], vertices[7], vertices[6], mass/20, this.centroid()),
+      new SphereTriangle(vertices[10], vertices[2], vertices[6], mass/20, this.centroid()),
+      new SphereTriangle(vertices[3], vertices[2], vertices[6], mass/20, this.centroid()),
+      new SphereTriangle(vertices[3], vertices[2], vertices[5], mass/20, this.centroid()),
+      new SphereTriangle(vertices[3], vertices[8], vertices[5], mass/20, this.centroid())
 
-//    public void setCentroid(Point p){
+    };
+  }
 
-//    }
+  public Point centroid() {
+    return new Point(0, 0, 0);
+  }
 
-//}
+  public double getMass() {
+    double mass = 0;
+    for (Triangle i : triangles) {
+      mass += i.getMass();
+    }
+    return mass;
+  }
+
+  public Triangle[] section() {
+    return triangles;
+  }
+
+  public void setCentroid(Point p) {
+  }
+
+  public void draw() {
+    rectMode(CENTER);
+    strokeWeight(2);
+    stroke(255, 255, 255);
+    //square((float)(centroid().getX()/ SCALE), (float)(centroid().getY() / SCALE), (float)(r / SCALE));
+    //fill(150,150,150, 150);
+    noFill();
+    beginShape(POINTS);
+    for (Triangle i : triangles) {
+      i.draw();
+    }
+    endShape();
+    textSize(100);
+  }
+}
