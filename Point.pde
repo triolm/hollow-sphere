@@ -36,4 +36,9 @@ class Point {
   public String toString() {
     return this.getX() + ", " + this.getY() + "," + this.getZ();
   }
+  
+  public void draw() {
+   
+    circle((float)(getX() / SCALE), (float)(getY() / SCALE), 4);
+  }
 }

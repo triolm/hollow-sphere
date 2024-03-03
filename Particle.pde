@@ -9,15 +9,15 @@ abstract class Particle {
   public abstract Point centroid();
 
   public void applyAccel(Vector3D a) {
-    velocity = velocity.add(a);
+    velocity = velocity.add(a.scale(STEPLEN));
   }
 
   public void step() {
-    setCentroid(centroid().add(velocity));
+    setCentroid(centroid().add(velocity.scale(STEPLEN)));
   }
   public abstract void setCentroid(Point p);
 
   public void draw() {
-    circle((float)centroid().getX(), (float)centroid().getY(), 10);
+    centroid().draw();
   }
 }

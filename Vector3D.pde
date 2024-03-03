@@ -40,4 +40,8 @@ class Vector3D {
   public Vector3D normalize() {
     return this.scale(1/this.norm());
   }
+  
+  public String toString() {
+    return this.getX() + ", " + this.getY() + "," + this.getZ();
+  }
 }

@@ -9,7 +9,7 @@ abstract class MassiveParticle extends Particle {
 
   public Vector3D gravAccel(Particle p) {
     double accel = G * (this.getMass()) / Math.pow(this.centroid().dist(p.centroid()), 2);
-    return this.centroid().subtract(p.centroid()).scale(accel);
+    return this.centroid().subtract(p.centroid()).normalize().scale(accel);
   }
 
   public abstract MassiveParticle[] section();

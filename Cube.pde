@@ -1,11 +1,12 @@
 class Cube extends MassiveParticle {
   Triangle[] triangles;
-
+  double r;
   public Cube(Point p, double r, double mass) {
     super(p, mass);
+    this.r = r;
     Point[] vertices = {
-      new Point(-1, -1, -1), new Point(-1, -1, 1), new Point(-1, 1, -1), new Point(-1, 1, 1),
-      new Point(1, -1, -1), new Point(1, -1, 1), new Point(1, 1, -1), new Point(1, 1, 1)
+      new Point(-r, -r, -r), new Point(-r, -r, r), new Point(-r, r, -r), new Point(-r, r, r),
+      new Point(r, -r, -r), new Point(r, -r, r), new Point(r, r, -r), new Point(r, r, r)
     };
 
     double tMass = this.mass/16;
@@ -53,5 +54,15 @@ class Cube extends MassiveParticle {
   }
 
   public void setCentroid(Point p) {
+  }
+  
+  public void draw(){
+    rectMode(CENTER);
+    fill(0,0,0,0);
+    stroke(255,255,255);
+    //square((float)(centroid().getX()/ SCALE), (float)(centroid().getY() / SCALE), (float)(r / SCALE));
+    for(Triangle i : triangles){
+      i.draw();
+    }
   }
 }

@@ -29,4 +29,14 @@ class Triangle extends MassiveParticle {
 
   public void setCentroid(Point p) {
   }
+
+  void draw() {
+    fill(0,0,0,0);
+    stroke(255,255,255);
+    vertices[0].draw();
+    vertices[1].draw();
+    vertices[2].draw();
+    stroke(255,0,0);
+    centroid().draw();
+  }
 }
