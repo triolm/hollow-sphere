@@ -76,8 +76,7 @@ class Icosahedron extends MassiveParticle {
     strokeWeight(2);
     stroke(255, 255, 255);
     //square((float)(centroid().getX()/ SCALE), (float)(centroid().getY() / SCALE), (float)(r / SCALE));
-    //fill(150,150,150, 150);
-    noFill();
+    //noFill();
     beginShape(POINTS);
     for (Triangle i : triangles) {
       i.draw();

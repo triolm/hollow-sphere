@@ -1,5 +1,5 @@
 class Cube extends MassiveParticle {
-  Triangle[] triangles;
+  SphereTriangle[] triangles;
   double r;
   public Cube(Point p, double r, double mass) {
     super(p, mass);
@@ -10,24 +10,24 @@ class Cube extends MassiveParticle {
     };
 
     double tMass = this.mass/16;
-    triangles = new Triangle[]{
-      new Triangle(vertices[0], vertices[1], vertices[2], tMass),
-      new Triangle(vertices[1], vertices[2], vertices[3], tMass),
+    triangles = new SphereTriangle[]{
+      new SphereTriangle(vertices[0], vertices[1], vertices[2], tMass, p),
+      new SphereTriangle(vertices[1], vertices[2], vertices[3], tMass, p),
 
-      new Triangle(vertices[4], vertices[5], vertices[6], tMass),
-      new Triangle(vertices[5], vertices[6], vertices[7], tMass),
+      new SphereTriangle(vertices[4], vertices[5], vertices[6], tMass, p),
+      new SphereTriangle(vertices[5], vertices[6], vertices[7], tMass, p),
 
-      new Triangle(vertices[0], vertices[1], vertices[4], tMass),
-      new Triangle(vertices[1], vertices[4], vertices[5], tMass),
+      new SphereTriangle(vertices[0], vertices[1], vertices[4], tMass, p),
+      new SphereTriangle(vertices[1], vertices[4], vertices[5], tMass, p),
 
-      new Triangle(vertices[2], vertices[3], vertices[6], tMass),
-      new Triangle(vertices[3], vertices[6], vertices[7], tMass),
+      new SphereTriangle(vertices[2], vertices[3], vertices[6], tMass, p),
+      new SphereTriangle(vertices[3], vertices[6], vertices[7], tMass, p),
 
-      new Triangle(vertices[0], vertices[2], vertices[4], tMass),
-      new Triangle(vertices[2], vertices[4], vertices[6], tMass),
+      new SphereTriangle(vertices[0], vertices[2], vertices[4], tMass, p),
+      new SphereTriangle(vertices[2], vertices[4], vertices[6], tMass, p),
 
-      new Triangle(vertices[1], vertices[3], vertices[5], tMass),
-      new Triangle(vertices[3], vertices[5], vertices[7], tMass),
+      new SphereTriangle(vertices[1], vertices[3], vertices[5], tMass, p),
+      new SphereTriangle(vertices[3], vertices[5], vertices[7], tMass, p),
 
     };
   }
@@ -38,13 +38,13 @@ class Cube extends MassiveParticle {
 
   public double getMass() {
     double mass = 0;
-    for (Triangle i : triangles) {
+    for (SphereTriangle i : triangles) {
       mass += i.getMass();
     }
     return mass;
   }
 
-  public Triangle[] section() {
+  public SphereTriangle[] section() {
     return triangles;
   }
 
@@ -56,7 +56,7 @@ class Cube extends MassiveParticle {
     fill(0, 0, 0, 0);
     stroke(255, 255, 255);
     //square((float)(centroid().getX()/ SCALE), (float)(centroid().getY() / SCALE), (float)(r / SCALE));
-    for (Triangle i : triangles) {
+    for (SphereTriangle i : triangles) {
       i.draw();
     }
     //rotateY(0.5);

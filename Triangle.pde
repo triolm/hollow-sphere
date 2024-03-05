@@ -21,6 +21,10 @@ class Triangle extends MassiveParticle {
   public double getMass() {
     return mass;
   }
+  
+  public void setMass(double mass){
+    this.mass = mass;
+  }
 
   public Triangle[] section() {
     Point ab = vertices[0].midpoint(vertices[1]);
@@ -39,12 +43,19 @@ class Triangle extends MassiveParticle {
   public void setCentroid(Point p) {
   }
 
+  public double area() {
+    //AB dot AC = AB AC cos theta
+    Vector3D ab = vertices[0].subtract(vertices[1]);
+    Vector3D ac = vertices[0].subtract(vertices[2]);
+    return Math.acos(ab.dot(ac)/(ab.norm()*ac.norm())) * (ab.norm()*ac.norm());
+  }
 
 
   void draw() {
     noFill();
     stroke(255, 255, 255, 150);
-    //fill(0,0,0);
+    //fill(0, 0, 0);
+
     strokeWeight(2);
     beginShape(TRIANGLES);
     vertices[0].draw();
@@ -74,11 +85,20 @@ class SphereTriangle extends Triangle {
     ca = origin.add(ca.subtract(origin).normalize().scale(originDist));
 
     SphereTriangle[] t = {
-      new SphereTriangle(vertices[0], ab, ca, mass/4, origin),
-      new SphereTriangle(vertices[1], ab, bc, mass/4, origin),
-      new SphereTriangle(vertices[2], bc, ca, mass/4, origin),
-      new SphereTriangle(ab, bc, ca, mass/4, origin)
+      new SphereTriangle(vertices[0], ab, ca, 0, origin),
+      new SphereTriangle(vertices[1], ab, bc, 0, origin),
+      new SphereTriangle(vertices[2], bc, ca, 0, origin),
+      new SphereTriangle(ab, bc, ca, 0, origin)
     };
+   double totalArea = 0;
+    for(SphereTriangle i : t){
+      totalArea += i.area();
+    }
+    for(SphereTriangle i:t){
+      i.setMass(getMass() * (i.area()/totalArea));
+    }
+    //print(t[0].area()/t[3].area());
+    //println();
     return t;
   }
 }
