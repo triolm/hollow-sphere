@@ -1,11 +1,13 @@
 class Icosahedron extends MassiveParticle {
   Triangle[] triangles;
   double r;
+  double PHI;
   public Icosahedron(Point p, double r, double mass) {
     super(p, mass);
     this.r = r;
+    this.PHI = (1.0 + Math.sqrt(5.0))/2.0 * r;
+
     // Define 12 vertices of the icosahedron
-    double PHI = (1.0 + Math.sqrt(5.0))/2.0 * r;
     Point[] vertices = {
       new Point(PHI, r, 0),
       new Point(PHI, -r, 0),
@@ -54,6 +56,10 @@ class Icosahedron extends MassiveParticle {
 
   public Point centroid() {
     return new Point(0, 0, 0);
+  }
+
+  public double PHI() {
+    return this.PHI;
   }
 
   public double getMass() {
