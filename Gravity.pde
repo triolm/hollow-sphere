@@ -12,11 +12,9 @@ double SCALE = .1e10;
 int recur = 3;
 boolean FILLTRIANGLE = false;
 
-ArrayList<Double> accels = new ArrayList<Double>();
-ArrayList<Double> particleY = new ArrayList<Double>();
 ArrayList<Boolean> inSphere = new ArrayList<Boolean>();
 
-Vector3D lastFrameVel = new Vector3D(0, 0, 0);
+Vector3D lastFrameVel;
 GPointsArray points;
 int frame = 0;
 GPlot plot;
@@ -33,8 +31,9 @@ void setup() {
   //p.applyAccel(new Vector3D(0, -3000/STEPLEN, 0));
   background(10, 5, 20);
 
+  lastFrameVel = new Vector3D(0, 0, 0);
 
-  points = new GPointsArray(particleY.size());
+  points = new GPointsArray(0);
   plot = new GPlot(this, -850, -500, 600, 400);
 
   plot.getYAxis().setFontColor(255);
@@ -55,44 +54,23 @@ void setup() {
 }
 
 void draw() {
-  frame ++;
 
-  if (keyPressed) {
-    if (keyCode == UP) {
-      xrot += .1;
-    }
-    if (keyCode == DOWN) {
-      xrot -= .1;
-    }
-    if (keyCode == LEFT) {
-      yrot -= .1;
-    }
-    if (keyCode == RIGHT) {
-      yrot += .1;
-    }
-    if (key == ' ') {
-      frame --;
-      return;
-    }
-  }
+  if (handleKeyDown()) return;
+
+  frame ++;
 
   for (int i = 0; i < speed; i ++) {
     p.applyAccel(c.gravAccelRecur(p, recur));
     p.step();
   }
 
-  accels.add(lastFrameVel.norm());
-  particleY.add(p.p.getY());
-
-  lastFrameVel = p.velocity;
-
+  //points.add(new GPoint(frame, (float)(lastFrameVel.norm() - p.velocity.norm())));
   points.add(new GPoint(frame, (float)lastFrameVel.norm()));
 
   background(40, 20, 80);
   translate(width/2, height/2, -500);
 
   plot.setPoints(points);
-
   plot.beginDraw();
   plot.drawPoints();
   plot.drawYAxis();
@@ -105,10 +83,7 @@ void draw() {
   p.draw();
   c.drawRecur(recur);
 
-
-
-  //inSphere.add(Math.abs(p.p.getY()) < Math.sqrt(Math.pow(c.PHI,2) + Math.pow(c.r,2)));
-  //println(p.velocity.norm() - lastFrameVel.norm());
+  lastFrameVel = p.velocity;
 }
 
 void keyPressed() {
@@ -124,33 +99,25 @@ void keyPressed() {
   if (key == 'f') {
     FILLTRIANGLE = !FILLTRIANGLE;
   }
-  //if (key == 's' ) {
-  //  try {
-  //    writeFile();
-  //  }
-  //  catch(Exception e) {
-  //    print(e);
-  //  }
-  //}
 }
 
-//void writeFile() throws Exception {
-
-//  PrintWriter writer = createWriter("./out/accels.txt");;
-//  for (Double str : accels) {
-//    writer.println(str + System.lineSeparator());
-//  }
-//  writer.close();
-
-//  writer = createWriter("./out/playerY.txt");;
-//  for (Double str : particleY) {
-//    writer.println(str + System.lineSeparator());
-//  }
-//  writer.close();
-//  writer = createWriter("./out/inSphere.txt");;
-//  for (Boolean str : inSphere) {
-//    writer.println(str + System.lineSeparator());
-//  }
-//  writer.close();
-//  print("lsdkfjdlskfj");
-//}
+boolean handleKeyDown() {
+  if (keyPressed) {
+    if (keyCode == UP) {
+      xrot += .1;
+    }
+    if (keyCode == DOWN) {
+      xrot -= .1;
+    }
+    if (keyCode == LEFT) {
+      yrot -= .1;
+    }
+    if (keyCode == RIGHT) {
+      yrot += .1;
+    }
+    if (key == ' ') {
+      return true;
+    }
+  }
+  return false;
+}

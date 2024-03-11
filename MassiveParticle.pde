@@ -37,3 +37,58 @@ abstract class MassiveParticle extends Particle {
     }
   }
 }
+
+abstract class TriangulatedParticle extends MassiveParticle {
+  Triangle[] triangles;
+  double r;
+
+  public TriangulatedParticle(Point p, double r, double mass) {
+    super(p, mass);
+    this.r = r;
+  }
+
+  void setTriangles(Triangle[] triangles) {
+    this.triangles = triangles;
+  }
+
+  Triangle[] getTriangles() {
+    return triangles;
+  }
+
+  double getR() {
+    return this.r;
+  }
+
+  public double getMass() {
+    double mass = 0;
+    for (Triangle i : triangles) {
+      mass += i.getMass();
+    }
+    return mass;
+  }
+
+  public Triangle[] section() {
+    return triangles;
+  }
+
+  public void setCentroid(Point p) {
+  }
+
+  public void draw() {
+    rectMode(CENTER);
+    strokeWeight(2);
+    stroke(255, 255, 255);
+    //square((float)(centroid().getX()/ SCALE), (float)(centroid().getY() / SCALE), (float)(r / SCALE));
+    //noFill();
+    beginShape(POINTS);
+    for (Triangle i : triangles) {
+      i.draw();
+    }
+    endShape();
+    textSize(100);
+  }
+
+  public Point centroid() {
+    return new Point(0, 0, 0);
+  }
+}

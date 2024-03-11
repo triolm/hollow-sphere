@@ -1,8 +1,9 @@
-class Cube extends MassiveParticle {
-  SphereTriangle[] triangles;
+class Cube extends TriangulatedParticle {
   double r;
   public Cube(Point p, double r, double mass) {
-    super(p, mass);
+    super(p, r, mass);
+    SphereTriangle[] triangles;
+
     this.r = r;
     Point[] vertices = {
       new Point(-r, -r, -r), new Point(-r, -r, r), new Point(-r, r, -r), new Point(-r, r, r),
@@ -30,36 +31,10 @@ class Cube extends MassiveParticle {
       new SphereTriangle(vertices[3], vertices[5], vertices[7], tMass, p),
 
     };
+    setTriangles(triangles);
   }
 
   public Point centroid() {
     return new Point(0, 0, 0);
-  }
-
-  public double getMass() {
-    double mass = 0;
-    for (SphereTriangle i : triangles) {
-      mass += i.getMass();
-    }
-    return mass;
-  }
-
-  public SphereTriangle[] section() {
-    return triangles;
-  }
-
-  public void setCentroid(Point p) {
-  }
-
-  public void draw() {
-    rectMode(CENTER);
-    fill(0, 0, 0, 0);
-    stroke(255, 255, 255);
-    //square((float)(centroid().getX()/ SCALE), (float)(centroid().getY() / SCALE), (float)(r / SCALE));
-    for (SphereTriangle i : triangles) {
-      i.draw();
-    }
-    //rotateY(0.5);
-    //box((float)(r/SCALE));
   }
 }
