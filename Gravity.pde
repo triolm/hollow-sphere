@@ -1,31 +1,39 @@
 import grafica.*;
 //import peasy.*;
 import java.io.FileWriter;
-Icosahedron c;
+TriangulatedParticle c;
 //MassiveParticle c;
 Person p;
-int STEPLEN = 100*5;
-int speed = 400;
+int STEPLEN = 200;
+int speed = 200;
 float yrot;
 float xrot;
 double SCALE = .1e10;
 int recur = 3;
 boolean FILLTRIANGLE = false;
+int fps;
 
 ArrayList<Boolean> inSphere = new ArrayList<Boolean>();
 
 Vector3D lastFrameVel;
-GPointsArray points;
+GPointsArray vels;
+GPointsArray accels;
 int frame = 0;
-GPlot plot;
+GPlot velPlot;
+GPlot accelPlot;
+long time;
+ArrayList<Integer> colors = new ArrayList<Integer>();
 
 //PeasyCam cam;
 void setup() {
   SCALE = .1e10;
   recur = 3;
+
+  xrot= 0;
+  yrot= 0;
   //cam = new PeasyCam(this, 100);
   size(1600/2, 900/2, P3D);
-  c = new Icosahedron(new Point(0, 0, 0), 10e10, 5e30d);
+  c = new Icosahedron(new Point(0, 0, 0), 20e10, 5e30d);
   //c = new Tetrahedron(new Point(0, 0, 0), 20e10, 1.9e30d);
   p = new Person(new Point(0, 40e10, 0));
   //p.applyAccel(new Vector3D(0, -3000/STEPLEN, 0));
@@ -33,24 +41,9 @@ void setup() {
 
   lastFrameVel = new Vector3D(0, 0, 0);
 
-  points = new GPointsArray(0);
-  plot = new GPlot(this, -850, -500, 600, 400);
+  plotSetup();
 
-  plot.getYAxis().setFontColor(255);
-  plot.getYAxis().setLineColor(255);
-  plot.getYAxis().setAxisLabelText("Speed (m/s)");
-  plot.getYAxis().getAxisLabel().setFontColor(255);
-  plot.getYAxis().getAxisLabel().setOffset(85);
-  plot.getYAxis().setFontSize(24);
-  plot.getYAxis().getAxisLabel().setFontSize(24);
-  plot.getYAxis().setRotateTickLabels(false);
-
-  plot.getXAxis().setFontColor(255);
-  plot.getXAxis().setLineColor(255);
-  plot.getXAxis().setAxisLabelText("Frame ("+ (speed*STEPLEN) + "s)");
-  plot.getXAxis().getAxisLabel().setFontColor(255);
-  plot.getXAxis().setFontSize(24);
-  plot.getXAxis().getAxisLabel().setFontSize(24);
+  time = System.currentTimeMillis();
 }
 
 void draw() {
@@ -64,21 +57,45 @@ void draw() {
     p.step();
   }
 
-  //points.add(new GPoint(frame, (float)(lastFrameVel.norm() - p.velocity.norm())));
-  points.add(new GPoint(frame, (float)lastFrameVel.norm()));
+  accels.add(new GPoint(frame, (float)(lastFrameVel.subtract(p.velocity).norm())));
+  vels.add(new GPoint(frame, (float)lastFrameVel.norm()));
+  
+  colors.add(p.p.dist(c.centroid()) < c.r ? color(0,0,255) : color(255,0,0));
+  //colors.add(255);
 
-  background(40, 20, 80);
-  translate(width/2, height/2, -500);
+  int[] colorsArr = colors.stream().mapToInt(i -> i).toArray();
 
-  plot.setPoints(points);
-  plot.beginDraw();
-  plot.drawPoints();
-  plot.drawYAxis();
-  plot.drawXAxis();
-  plot.endDraw();
+  velPlot.setPointColors(colorsArr);
+  accelPlot.setPointColors(colorsArr);
+
+  background(10, 5, 30);
+  translate(width/2 + 300, height/2, -500);
+
+  velPlot.setPoints(vels);
+  velPlot.beginDraw();
+  velPlot.drawPoints();
+  velPlot.drawYAxis();
+  velPlot.drawXAxis();
+  velPlot.endDraw();
+
+  accelPlot.setPoints(accels);
+  accelPlot.beginDraw();
+  accelPlot.drawPoints();
+  accelPlot.drawYAxis();
+  accelPlot.drawXAxis();
+  accelPlot.endDraw();
+
+  if (frame % 10 == 0) {
+    fps = (int)(1000/((System.currentTimeMillis() - time)/10));
+    time = System.currentTimeMillis();
+  }
+  
+  text("fps: " +  fps, 450, -450);
+
 
   rotateY(yrot);
   rotateX(xrot);
+
 
   p.draw();
   c.drawRecur(recur);
@@ -90,7 +107,7 @@ void keyPressed() {
   if (key == 'd') {
     recur += 1;
   }
-  if (key == 'a' && recur > 0) {
+  if (key == 'a' && recur > 1) {
     recur -= 1;
   }
   if (key == 'r' ) {
@@ -120,4 +137,47 @@ boolean handleKeyDown() {
     }
   }
   return false;
+}
+
+
+void plotSetup() {
+  vels = new GPointsArray(0);
+  accels = new GPointsArray(0);
+
+  velPlot = new GPlot(this, -1050, -500, 600, 400);
+
+  accelPlot = new GPlot(this, -1050, 000, 600, 400);
+
+  velPlot.getYAxis().setFontColor(255);
+  velPlot.getYAxis().setLineColor(255);
+  velPlot.getYAxis().setAxisLabelText("Speed (m/s)");
+  velPlot.getYAxis().getAxisLabel().setFontColor(255);
+  velPlot.getYAxis().getAxisLabel().setOffset(85);
+  velPlot.getYAxis().setFontSize(24);
+  velPlot.getYAxis().getAxisLabel().setFontSize(24);
+  velPlot.getYAxis().setRotateTickLabels(false);
+
+  velPlot.getXAxis().setFontColor(255);
+  velPlot.getXAxis().setLineColor(255);
+  velPlot.getXAxis().setAxisLabelText("Frame ("+ (speed*STEPLEN) + "s)");
+  velPlot.getXAxis().getAxisLabel().setFontColor(255);
+  velPlot.getXAxis().setFontSize(24);
+  velPlot.getXAxis().getAxisLabel().setFontSize(24);
+
+
+  accelPlot.getYAxis().setFontColor(255);
+  accelPlot.getYAxis().setLineColor(255);
+  accelPlot.getYAxis().setAxisLabelText("Acceleration (m/s^2)");
+  accelPlot.getYAxis().getAxisLabel().setFontColor(255);
+  accelPlot.getYAxis().getAxisLabel().setOffset(85);
+  accelPlot.getYAxis().setFontSize(24);
+  accelPlot.getYAxis().getAxisLabel().setFontSize(24);
+  accelPlot.getYAxis().setRotateTickLabels(false);
+
+  accelPlot.getXAxis().setFontColor(255);
+  accelPlot.getXAxis().setLineColor(255);
+  accelPlot.getXAxis().setAxisLabelText("Frame ("+ (speed*STEPLEN) + "s)");
+  accelPlot.getXAxis().getAxisLabel().setFontColor(255);
+  accelPlot.getXAxis().setFontSize(24);
+  accelPlot.getXAxis().getAxisLabel().setFontSize(24);
 }

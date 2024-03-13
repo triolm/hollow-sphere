@@ -1,16 +1,19 @@
 class Tetrahedron extends TriangulatedParticle {
   double r;
+  double s;
   public Tetrahedron(Point p, double r, double mass) {
-    super(p,r, mass);
+    super(p, r, mass);
     this.r = r;
-      Triangle[] triangles;
+    this.s =  r / Math.sqrt(3.0);
+
+    Triangle[] triangles;
 
     // Define 12 vertices of the icosahedron
     Point[] vertices = {
-      new Point(r,r,r),
-      new Point(-r,-r,r),
-      new Point(r,-r,-r),
-      new Point(-r,r,-r)
+      new Point(s, s, s),
+      new Point(-s, -s, s),
+      new Point(s, -s, -s),
+      new Point(-s, s, -s)
     };
 
     triangles = new SphereTriangle[]{
@@ -27,5 +30,4 @@ class Tetrahedron extends TriangulatedParticle {
   public Point centroid() {
     return new Point(0, 0, 0);
   }
-
 }

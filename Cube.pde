@@ -1,13 +1,16 @@
 class Cube extends TriangulatedParticle {
   double r;
+  double s;
   public Cube(Point p, double r, double mass) {
     super(p, r, mass);
     SphereTriangle[] triangles;
-
+    
     this.r = r;
+    this.s =  r / Math.sqrt(3.0);
+    
     Point[] vertices = {
-      new Point(-r, -r, -r), new Point(-r, -r, r), new Point(-r, r, -r), new Point(-r, r, r),
-      new Point(r, -r, -r), new Point(r, -r, r), new Point(r, r, -r), new Point(r, r, r)
+      new Point(-s, -s, -s), new Point(-s, -s, s), new Point(-s, s, -s), new Point(-s, s, s),
+      new Point(s, -s, -s), new Point(s, -s, s), new Point(s, s, -s), new Point(s, s, s)
     };
 
     double tMass = this.mass/16;

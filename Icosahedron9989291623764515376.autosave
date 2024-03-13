@@ -5,24 +5,26 @@ class Icosahedron extends TriangulatedParticle {
   public Icosahedron(Point p, double r, double mass) {
     super(p, r, mass);
     this.r = r;
-    
-    this.s = Math.sqrt(Math.pow(r,2)/(Math.pow(PHI,2) +1));
+    this.s = Math.sqrt(Math.pow(r,2) + (Math.pow(PHI,2) + 1));
 
     Triangle[] triangles;
+
+
+    // Define 12 vertices of the icosahedron
     
     Point[] vertices = {
-      new Point(PHI * s, s, 0),
-      new Point(PHI * s, -s, 0),
-      new Point(-PHI * s, -s, 0),
-      new Point(-PHI * s, s, 0),
-      new Point(s, 0, PHI * s),
-      new Point(-s, 0, PHI * s),
-      new Point(-s, 0, -PHI * s),
-      new Point(s, 0, -PHI * s),
-      new Point(0, PHI * s, s),
-      new Point(0, PHI * s, -s),
-      new Point(0, -PHI * s, -s),
-      new Point(0, -PHI * s, s)
+      new Point(PHI, r, 0),
+      new Point(PHI, -r, 0),
+      new Point(-PHI, -r, 0),
+      new Point(-PHI, r, 0),
+      new Point(r, 0, PHI),
+      new Point(-r, 0, PHI),
+      new Point(-r, 0, -PHI),
+      new Point(r, 0, -PHI),
+      new Point(0, PHI, r),
+      new Point(0, PHI, -r),
+      new Point(0, -PHI, -r),
+      new Point(0, -PHI, r)
     };
 
     triangles = new SphereTriangle[]{
@@ -57,4 +59,9 @@ class Icosahedron extends TriangulatedParticle {
     setTriangles(triangles);
   }
 
+
+
+  public double PHI() {
+    return this.PHI;
+  }
 }
