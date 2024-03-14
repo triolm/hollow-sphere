@@ -9,12 +9,12 @@ class Octahedron extends TriangulatedParticle {
     Triangle[] triangles;
     // Define 12 vertices of the icosahedron
     Point[] vertices = {
-      new Point(s, s, 0),
-      new Point(s, -s, 0),
-      new Point(-s, s, 0),
-      new Point(-s, -s, 0),
-      new Point(0, 0, Math.sqrt(8.0)/2 * s),
-      new Point(0, 0, -Math.sqrt(8.0)/2 * s),
+      new Point(s + centroid().getX(), s + centroid().getY(), 0 + centroid().getZ()),
+      new Point(s + centroid().getX(), -s + centroid().getY(), 0 + centroid().getZ()),
+      new Point(-s + centroid().getX(), s + centroid().getY(), 0 + centroid().getZ()),
+      new Point(-s + centroid().getX(), -s + centroid().getY(), 0 + centroid().getZ()),
+      new Point(0 + centroid().getX(), 0 + centroid().getY(), Math.sqrt(8.0)/2 * s + centroid().getZ()),
+      new Point(0 + centroid().getX(), 0 + centroid().getY(), -Math.sqrt(8.0)/2 * s + centroid().getZ()),
     };
 
     triangles = new SphereTriangle[]{

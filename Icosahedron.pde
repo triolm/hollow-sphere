@@ -5,24 +5,24 @@ class Icosahedron extends TriangulatedParticle {
   public Icosahedron(Point p, double r, double mass) {
     super(p, r, mass);
     this.r = r;
-    
-    this.s = Math.sqrt(Math.pow(r,2)/(Math.pow(PHI,2) +1));
+
+    this.s = Math.sqrt(Math.pow(r, 2)/(Math.pow(PHI, 2) +1));
 
     Triangle[] triangles;
-    
+
     Point[] vertices = {
-      new Point(PHI * s, s, 0),
-      new Point(PHI * s, -s, 0),
-      new Point(-PHI * s, -s, 0),
-      new Point(-PHI * s, s, 0),
-      new Point(s, 0, PHI * s),
-      new Point(-s, 0, PHI * s),
-      new Point(-s, 0, -PHI * s),
-      new Point(s, 0, -PHI * s),
-      new Point(0, PHI * s, s),
-      new Point(0, PHI * s, -s),
-      new Point(0, -PHI * s, -s),
-      new Point(0, -PHI * s, s)
+      new Point(PHI * s + centroid().getX(), s+ centroid().getY(), 0 + centroid().getZ()),
+      new Point(PHI * s + centroid().getX(), -s+ centroid().getY(), 0 + centroid().getZ()),
+      new Point(-PHI * s + centroid().getX(), -s+ centroid().getY(), 0 + centroid().getZ()),
+      new Point(-PHI * s + centroid().getX(), s + centroid.getY(), 0 + centroid().getZ()),
+      new Point(s + centroid().getX(), 0+ centroid().getY(), PHI * s + centroid().getZ()),
+      new Point(-s + centroid().getX(), 0+ centroid().getY(), PHI * s + centroid().getZ()),
+      new Point(-s + centroid().getX(), 0+ centroid().getY(), -PHI * s + centroid().getZ()),
+      new Point(s + centroid().getX(), 0+ centroid().getY(), -PHI * s + centroid().getZ()),
+      new Point(0 + centroid().getX(), PHI * s+ centroid().getY(), s + centroid().getZ()),
+      new Point(0 + centroid().getX(), PHI * s+ centroid().getY(), -s + centroid().getZ()),
+      new Point(0 + centroid().getX(), -PHI * s+ centroid().getY(), -s + centroid().getZ()),
+      new Point(0 + centroid().getX(), -PHI * s+ centroid().getY(), s + centroid().getZ())
     };
 
     triangles = new SphereTriangle[]{
@@ -56,5 +56,4 @@ class Icosahedron extends TriangulatedParticle {
     };
     setTriangles(triangles);
   }
-
 }

@@ -41,10 +41,12 @@ abstract class MassiveParticle extends Particle {
 abstract class TriangulatedParticle extends MassiveParticle {
   Triangle[] triangles;
   double r;
+  Point centroid;
 
   public TriangulatedParticle(Point p, double r, double mass) {
     super(p, mass);
     this.r = r;
+    this.centroid = p;
   }
 
   void setTriangles(Triangle[] triangles) {
@@ -89,6 +91,6 @@ abstract class TriangulatedParticle extends MassiveParticle {
   }
 
   public Point centroid() {
-    return new Point(0, 0, 0);
+    return centroid;
   }
 }

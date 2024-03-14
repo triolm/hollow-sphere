@@ -10,10 +10,10 @@ class Tetrahedron extends TriangulatedParticle {
 
     // Define 12 vertices of the icosahedron
     Point[] vertices = {
-      new Point(s, s, s),
-      new Point(-s, -s, s),
-      new Point(s, -s, -s),
-      new Point(-s, s, -s)
+      new Point(s + centroid().getX(), s + centroid().getY(), s + centroid().getZ()),
+      new Point(-s + centroid().getX(), -s + centroid().getY(), s + centroid().getZ()),
+      new Point(s + centroid().getX(), -s + centroid().getY(), -s + centroid().getZ()),
+      new Point(-s + centroid().getX(), s + centroid().getY(), -s + centroid().getZ())
     };
 
     triangles = new SphereTriangle[]{

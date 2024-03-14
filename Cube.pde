@@ -9,8 +9,14 @@ class Cube extends TriangulatedParticle {
     this.s =  r / Math.sqrt(3.0);
     
     Point[] vertices = {
-      new Point(-s, -s, -s), new Point(-s, -s, s), new Point(-s, s, -s), new Point(-s, s, s),
-      new Point(s, -s, -s), new Point(s, -s, s), new Point(s, s, -s), new Point(s, s, s)
+      new Point(-s + centroid().getX(), -s + centroid().getY(), -s + centroid().getZ()), 
+      new Point(-s + centroid().getX(), -s + centroid().getY(), s + centroid().getZ()), 
+      new Point(-s + centroid().getX(), s + centroid().getY(), -s + centroid().getZ()), 
+      new Point(-s + centroid().getX(), s + centroid().getY(), s + centroid().getZ()),
+      new Point(s + centroid().getX(), -s + centroid().getY(), -s + centroid().getZ()), 
+      new Point(s + centroid().getX(), -s + centroid().getY(), s + centroid().getZ()), 
+      new Point(s + centroid().getX(), s + centroid().getY(), -s + centroid().getZ()), 
+      new Point(s + centroid().getX(), s + centroid().getY(), s + centroid().getZ())
     };
 
     double tMass = this.mass/16;
