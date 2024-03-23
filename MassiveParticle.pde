@@ -1,5 +1,5 @@
+double G = 6.67e-11;
 abstract class MassiveParticle extends Particle {
-  double G = 6.67e-11;
   public double mass;
 
   public MassiveParticle(Point pos, double mass) {
@@ -8,6 +8,7 @@ abstract class MassiveParticle extends Particle {
   }
 
   public Vector3D gravAccel(Particle p) {
+    //print(this.centroid().dist(p.centroid()) + "ppp");
     double accel = G * (this.getMass()) / Math.pow(this.centroid().dist(p.centroid()), 2);
     return this.centroid().subtract(p.centroid()).normalize().scale(accel);
   }

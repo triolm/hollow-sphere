@@ -54,9 +54,6 @@ class Triangle extends MassiveParticle {
   void draw() {
     noFill();
     stroke(255, 255, 255, 150);
-    if(FILLTRIANGLE){
-      fill(0, 0, 0);
-    }
 
     strokeWeight(2);
     beginShape(TRIANGLES);
