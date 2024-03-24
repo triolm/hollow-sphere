@@ -13,23 +13,47 @@ void setup() {
 
   satelites = new ArrayList<MassiveParticle>();
 
-  xrot= 0;
-  yrot= 0;
-
-  rotateY(yrot);
-  rotateX(xrot);
+  //xrot= 0;
+  //yrot= 0;
 
   p = new PointMass(new Point(0, 0, 0), 6.47e6, 5.9e24, color(255, 255, 255));
 
 
-  Vector3D startPos = new Vector3D(6.47e6 * 1.4, 0, 0);
-  Vector3D startVel = new Vector3D(0, 1, 0);
+  //Vector3D startPos = new Vector3D(6.47e6 * 1.4, 0, 0);
+  //Vector3D startVel = new Vector3D(0, 1, 0);
+  //color(i/4 < 3 ? 100 : 255, i/4 % 2 == 0 ? 100 : 255, i/4 == 2 || i/4 == 3 ? 100 : 255)
+  Vector3D[] starts = { new Vector3D(6.47e6 * 1.4, 0, 0), new Vector3D(0, 0, 6.47e6 * 1.4), new Vector3D(-6.47e6 * 1.4, 0, 0), new Vector3D(0, 0, -6.47e6 * 1.4)};
+  Vector3D[] startVels = { new Vector3D(0, 0, 1), new Vector3D(-1, 0, 0), new Vector3D(0, 0, -1), new Vector3D(1, 0, 0)};
+  color[] colors = {color(255, 0, 0), color(255, 150, 0), color(255, 255, 0), color(0, 255, 0), color(0, 0, 255), color(150, 0, 255)};
 
-  for ( int i = 0; i < 5; i ++) {
-    MassiveParticle q = new PointMass(startPos.rotateAll(i * Math.PI / 3).point(), 3 *1e5, 4e5, color(0, 0, 255));
-    q.velocity = startVel.rotateAll(i * Math.PI / 3).normalize().scale(Math.sqrt(G * p.getMass()/ p.centroid().dist(q.centroid())));
+  for ( int i = 0; i < 6; i ++) {
+    for (int j = 0; j < 4; j ++) {
 
-    satelites.add(q);
+      Vector3D v = starts[j]
+        .rotateY(i * (Math.PI / 12))
+        //rotate orbital plane
+        .rotateZ(Math.toRadians(55.0))
+        .rotateY(i * Math.PI / 3.0);
+
+      print(i + "," + j + ": ");
+      //println(v);
+
+      MassiveParticle q = new PointMass(v.point(), 3 *1e5, 4e5,
+        colors[i]);
+
+      q.velocity = startVels[j]
+        .rotateY(i * (Math.PI / 12))
+        .rotateZ(Math.toRadians(55.0))
+        .rotateY(i * Math.PI / 3.0)
+        //scale so orbit is perfect circle
+        .scale(Math.sqrt(G * p.getMass()/ p.centroid().dist(q.centroid())));
+
+
+      println(q.velocity.dot(v));
+      //println(v.cross(v));
+
+      satelites.add(q);
+    }
   }
 }
 
@@ -71,6 +95,9 @@ boolean handleKeyDown() {
     }
     if (keyCode == RIGHT) {
       yrot += .1;
+    }
+    if (key == 'r') {
+      setup();
     }
   }
   return false;

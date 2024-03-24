@@ -21,6 +21,13 @@ class Vector3D {
     this.z = r;
   }
 
+  public Vector3D cross(Vector3D v) {
+    double newX = y * v.getZ() - z * v.getY();
+    double newY = z * v.getX() - x * v.getZ();
+    double newZ = x * v.getY() - y * v.getX();
+    return new Vector3D(newX, newY, newZ);
+  }
+
   public double getX() {
     return this.x;
   }
@@ -71,7 +78,7 @@ class Vector3D {
     return new Vector3D(
       this.getX() * Math.cos(theta) + this.getZ() * Math.sin(theta),
       this.getY(),
-      this.getX() * Math.sin(theta) + this.getZ() * Math.cos(theta));
+      -this.getX() * Math.sin(theta) + this.getZ() * Math.cos(theta));
   }
 
   public Vector3D rotateZ(double theta) {
